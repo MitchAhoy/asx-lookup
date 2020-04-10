@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Charts</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
+
 <body>
 
     <div class="container-lg">
         <div class="chart-info">
-            <h2 class="stock-name">MLT</h2>
-            <p class="date-range">12/3 - 4/5</p>
+            <h2 class="stock-name"></h2>
+            <p class="stock-info"></p>
         </div>
         <canvas id="myChart"></canvas>
 
-    <select name="" id="">
-        <option value=""></option>
-        <option value=""></option>
-        <option value=""></option>
-        <option value=""></option>
-        <option value=""></option>
-    </select>
+        <div class="select-output">
+            <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="open">Open</label>
+            <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="high">High</label>
+            <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="low">Low</label>
+            <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="close" checked>Close</label>
+            <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="adj-close">Adjusted Close</label>
+            <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="dividends">Dividends</label>
+        </div>
+
     </div>
 
     <script src="function.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

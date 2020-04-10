@@ -1,82 +1,122 @@
-const apiKey = '6H9KFYV6QB4V95H4'
-const fetchUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=MLT.AX&apikey=6H9KFYV6QB4V95H4'
-const button = document.querySelector('.btn')
+let ticker = 'MLT'
+const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}.AX&apikey=6H9KFYV6QB4V95H4`
 const myChart = document.getElementById('myChart').getContext('2d')
-let data = {}
-
 
 
 // Get data from API
 async function getData() {
-    fetch(fetchUrl)
-        .then(response => response.json())
-        .then(object => {
-            data.rawData = object
-            data.xlabels = Object.keys(object['Time Series (Daily)'])
-            data.priceData = Object.entries(object["Time Series (Daily)"])
-            data.priceOpen = Object.entries(object["Time Series (Daily)"]).forEach(function(day) {data.priceOpen.push(day[1]['1. open'])})
-            // data.price.open = Object.entries(object["Time Series (Daily)"]).forEach(function(day) {open.push(day[1]['2. high'])})
-            // data.price.open = Object.entries(object["Time Series (Daily)"]).forEach(function(day) {open.push(day[1]['3. low'])})
-            // data.price.open = Object.entries(object["Time Series (Daily)"]).forEach(function(day) {open.push(day[1]['4. close'])})
-            // data.price.open = Object.entries(object["Time Series (Daily)"]).forEach(function(day) {open.push(day[1]['5. adjusted close'])})
 
-        })
-        .catch(err => console.log(err))
+    const response = await fetch(fetchUrl)
+    if (!response.ok) {
+        throw new Error("HTTP error " + response.status)
+    }
+    const object = await response.json()
+
+    const data = new Object
+
+    data.rawData = object
+    data.xlabels = Object.keys(object['Time Series (Daily)'])
+
+
+    data.price = new Object
+
+    data.price.open = new Array
+    data.price.high = new Array
+    data.price.low = new Array
+    data.price.close = new Array
+    data.price.adjustedClose = new Array
+    data.price.volume = new Array
+    data.price.dividendAmount = new Array
+    data.price.splitCoefficient = new Array
+
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.open.push(day[1]['1. open']) })
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.high.push(day[1]['2. high']) })
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.low.push(day[1]['3. low']) })
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.close.push(day[1]['4. close']) })
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.adjustedClose.push(day[1]['5. adjusted close']) })
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.volume.push(day[1]['6. volume']) })
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.dividendAmount.push(day[1]['7. dividend amount']) })
+    Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.splitCoefficient.push(day[1]['8. split coefficient']) })
+
+
+
+    data.price.open.reverse()
+    data.price.high.reverse()
+    data.price.low.reverse()
+    data.price.close.reverse()
+    data.price.adjustedClose.reverse()
+    data.price.volume.reverse()
+    data.price.dividendAmount.reverse()
+    data.price.splitCoefficient.reverse()
+    data.xlabels.reverse()
+
+    return data
+
 }
+
 
 // Draw chart
 async function chartIt() {
-    await getData()
+    const plotData = await getData()
 
     const priceChart = new Chart(myChart, {
         type: 'line',
         data: {
-            labels: data.xlabels,
-            datasets: [{
-                label: 'Price',
-                data: [1,2,3,4,5,6,7], 
-            }]
+            labels: plotData.xlabels,
+            datasets: [
+                {
+                    label: 'Close',
+                    data: plotData.price.close
+                },
+                {
+                    label: 'High',
+                    data: plotData.price.high
+                }
+
+            ]
         },
         options: {}
     })
+}
+
+// Load DOM Content
+
+async function loadContent() {
+
+    const data = await getData()
+
+    document.querySelector('.stock-name').innerHTML = `${data.rawData['Meta Data']['2. Symbol']}`
+    document.querySelector('.stock-info').innerHTML = `Last Updated: ${data.rawData['Meta Data']['3. Last Refreshed']}`
+
+    chartIt()
+}
+
+// Select data
+
+function select() {
+    const open = document.querySelector('#open')
+    const high = document.querySelector('#high')
+    const low = document.querySelector('#low')
+    const close = document.querySelector('#close')
+    const adjClose = document.querySelector('#adj-close')
+    const dividends = document.querySelector('#dividends')
+
+
+
+    function updateConfigByMutating(chart) {
+        chart.options.title.text = 'new title';
+        chart.update();
     }
 
-chartIt()
-
-// open
-// high
-// low
-// close
-// adjusted close
-
-
-    
+}
 
 
 
+loadContent()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+document.querySelectorAll('.checkbox').forEach(function (checkbox) {
+    checkbox.addEventListener('change', function (e) {
+        console.log(e)
+    })
+})
