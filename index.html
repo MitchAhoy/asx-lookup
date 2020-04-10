@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Charts</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,17 +17,19 @@
         <div class="chart-info">
             <h2 class="stock-name"></h2>
             <p class="stock-info"></p>
+            <input type="text" id="search" placeholder="Search">
+            <button class="btn btn-primary btn-submit">Go</button>
         </div>
         <canvas id="myChart"></canvas>
 
-        <div class="select-output">
+        <!-- <div class="select-output">
             <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="open">Open</label>
             <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="high">High</label>
             <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="low">Low</label>
             <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="close" checked>Close</label>
             <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="adj-close">Adjusted Close</label>
             <label class="checkbox-inline"><input type="checkbox" class="checkbox" id="dividends">Dividends</label>
-        </div>
+        </div> -->
 
     </div>
 

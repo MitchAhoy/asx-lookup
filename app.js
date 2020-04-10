@@ -1,10 +1,12 @@
 let ticker = 'MLT'
-const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}.AX&apikey=6H9KFYV6QB4V95H4`
+
 const myChart = document.getElementById('myChart').getContext('2d')
+
 
 
 // Get data from API
 async function getData() {
+    const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}.AX&apikey=6H9KFYV6QB4V95H4`
 
     const response = await fetch(fetchUrl)
     if (!response.ok) {
@@ -54,12 +56,13 @@ async function getData() {
 
 }
 
-
 // Draw chart
 async function chartIt() {
     const plotData = await getData()
 
-    const priceChart = new Chart(myChart, {
+    const low = plotData.price.low
+
+    const chart = new Chart(myChart, {
         type: 'line',
         data: {
             labels: plotData.xlabels,
@@ -67,16 +70,36 @@ async function chartIt() {
                 {
                     label: 'Close',
                     data: plotData.price.close
-                },
-                {
-                    label: 'High',
-                    data: plotData.price.high
                 }
-
-            ]
+            ],
         },
         options: {}
     })
+
+    function addData(chart, label, data) {
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data);
+        });
+        chart.update();
+    }
+
+    function removeData(chart) {
+        chart.data.labels.pop();
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+        });
+        chart.update();
+    }
+
+
+
+    document.querySelector('.btn-submit').addEventListener('click', function (e) {
+        removeData(chart)
+        chart.update()
+
+    })
+
 }
 
 // Load DOM Content
@@ -92,7 +115,6 @@ async function loadContent() {
 }
 
 // Select data
-
 function select() {
     const open = document.querySelector('#open')
     const high = document.querySelector('#high')
@@ -115,8 +137,3 @@ function select() {
 loadContent()
 
 
-document.querySelectorAll('.checkbox').forEach(function (checkbox) {
-    checkbox.addEventListener('change', function (e) {
-        console.log(e)
-    })
-})
