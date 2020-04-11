@@ -1,14 +1,12 @@
 // Get data from API
 async function getData() {
-
-
-
     const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}.AX&apikey=6H9KFYV6QB4V95H4`
 
     const response = await fetch(fetchUrl)
     if (!response.ok) {
         throw new Error("HTTP error " + response.status)
     }
+
     const object = await response.json()
 
     const data = new Object
