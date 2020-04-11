@@ -1,6 +1,6 @@
 // Get data from API
 async function getData() {
-    
+
 
 
     const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}.AX&apikey=6H9KFYV6QB4V95H4`
@@ -70,14 +70,28 @@ async function chartIt() {
         options: {}
     })
 
-
-    document.querySelector('.btn-submit').addEventListener('click', function(e) {
+    // Search with button
+    document.querySelector('.btn-submit').addEventListener('click', function (e) {
         ticker = searchText.value
         chart.destroy()
-        getData()
         loadContent()
     })
 
+}
+
+// Select from drop down menu
+function selectStock(name) {
+
+    ticker = name
+
+    Chart.helpers.each(Chart.instances, function (instance) {
+        if (instance.chart.canvas.id === "myChart") {
+            instance.destroy();
+            return;
+        }
+    });
+
+    loadContent()
 }
 
 // Load DOM Content
