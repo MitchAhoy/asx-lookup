@@ -1,4 +1,53 @@
+
+
+canvas {
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-top: 2rem;
+}
+
+.chart-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-lg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 #search {
   background: #e5e5e5;
   border: none;
+  border-radius: 5px;
+  padding: 7px 12px;
+  margin-right: 0.3rem;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+#match-list {
+  position: absolute;
+  overflow: scroll;
+  max-height: 400px;
+  width: 600px;
+  margin-top: 16.8rem;
+}
+
+#match-list::-webkit-scrollbar { width: 0 !important }
+
+.card:hover {
+  background: #f4f4f4;
+  cursor: pointer;
 }

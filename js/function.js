@@ -1,11 +1,8 @@
-let ticker = 'MLT'
-
-const myChart = document.getElementById('myChart').getContext('2d')
-
-
-
 // Get data from API
 async function getData() {
+    
+
+
     const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}.AX&apikey=6H9KFYV6QB4V95H4`
 
     const response = await fetch(fetchUrl)
@@ -18,7 +15,6 @@ async function getData() {
 
     data.rawData = object
     data.xlabels = Object.keys(object['Time Series (Daily)'])
-
 
     data.price = new Object
 
@@ -40,8 +36,6 @@ async function getData() {
     Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.dividendAmount.push(day[1]['7. dividend amount']) })
     Object.entries(object["Time Series (Daily)"]).forEach(function (day) { data.price.splitCoefficient.push(day[1]['8. split coefficient']) })
 
-
-
     data.price.open.reverse()
     data.price.high.reverse()
     data.price.low.reverse()
@@ -60,50 +54,33 @@ async function getData() {
 async function chartIt() {
     const plotData = await getData()
 
-    const low = plotData.price.low
-
     const chart = new Chart(myChart, {
         type: 'line',
         data: {
             labels: plotData.xlabels,
             datasets: [
                 {
-                    label: 'Close',
-                    data: plotData.price.close
+                    label: 'Price',
+                    data: plotData.price.close,
+                    backgroundColor: '#007bff52',
+                    borderColor: '#007bff'
                 }
             ],
         },
         options: {}
     })
 
-    function addData(chart, label, data) {
-        chart.data.labels.push(label);
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(data);
-        });
-        chart.update();
-    }
 
-    function removeData(chart) {
-        chart.data.labels.pop();
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.pop();
-        });
-        chart.update();
-    }
-
-
-
-    document.querySelector('.btn-submit').addEventListener('click', function (e) {
-        removeData(chart)
-        chart.update()
-
+    document.querySelector('.btn-submit').addEventListener('click', function(e) {
+        ticker = searchText.value
+        chart.destroy()
+        getData()
+        loadContent()
     })
 
 }
 
 // Load DOM Content
-
 async function loadContent() {
 
     const data = await getData()
@@ -113,27 +90,4 @@ async function loadContent() {
 
     chartIt()
 }
-
-// Select data
-function select() {
-    const open = document.querySelector('#open')
-    const high = document.querySelector('#high')
-    const low = document.querySelector('#low')
-    const close = document.querySelector('#close')
-    const adjClose = document.querySelector('#adj-close')
-    const dividends = document.querySelector('#dividends')
-
-
-
-    function updateConfigByMutating(chart) {
-        chart.options.title.text = 'new title';
-        chart.update();
-    }
-
-}
-
-
-
-loadContent()
-
 
