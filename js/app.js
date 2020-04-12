@@ -6,6 +6,12 @@ const matchList = document.getElementById('match-list')
 
 loadContent()
 
+
+
+
+
+
+
 // Event listeners
 // Search with autocomplete
 searchText.addEventListener('input', async function (e) {
@@ -58,7 +64,6 @@ searchText.addEventListener('blur', function () {
     setTimeout(function () { matchList.style.display = 'none' }, 500)
 
 })
-
 
 
 

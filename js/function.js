@@ -1,7 +1,15 @@
+function createP(message, style) {
+    const p = document.createElement('p')
+    p.innerHTML = message
+    p.classList = 'text-' + style
+    return p
+}
 // Get data from API
 async function getData() {
 
-
+    if (ticker === '') {
+        return
+    }
 
     const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${ticker}.AX&apikey=6H9KFYV6QB4V95H4`
 
@@ -10,6 +18,13 @@ async function getData() {
         throw new Error("HTTP error " + response.status)
     }
     const object = await response.json()
+    console.log(object)
+
+
+
+    if (object['Note']) {
+        document.querySelector('.chart-info').appendChild(createP('Too many requests - max 5 per minute', 'danger'))
+    } 
 
     const data = new Object
 
@@ -49,6 +64,8 @@ async function getData() {
     return data
 
 }
+
+
 
 // Draw chart
 async function chartIt() {
