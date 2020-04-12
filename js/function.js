@@ -1,7 +1,7 @@
-function createP(message, style) {
+function createP(message, style, className) {
     const p = document.createElement('p')
     p.innerHTML = message
-    p.classList = 'text-' + style
+    p.classList = 'text-' + style + ' ' + className
     return p
 }
 // Get data from API
@@ -18,13 +18,17 @@ async function getData() {
         throw new Error("HTTP error " + response.status)
     }
     const object = await response.json()
-    console.log(object)
 
-
-
+    // Error handling
     if (object['Note']) {
-        document.querySelector('.chart-info').appendChild(createP('Too many requests - max 5 per minute', 'danger'))
-    } 
+        chartInfo.appendChild(createP('Too many requests - max 5 per minute', 'danger', 'error-message'))
+        setInterval(function () { document.querySelector('.error-message').style.display = 'none' }, 5000)
+    } else if (object['Error Message']) {
+        chartInfo.appendChild(createP(`API does not support this company: ${object['Error Message']}`, 'danger', 'error-message'))
+        setInterval(function () { document.querySelector('.error-message').style.display = 'none' }, 5000)
+    }
+
+    console.log(object)
 
     const data = new Object
 

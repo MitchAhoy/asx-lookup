@@ -1,16 +1,13 @@
 let ticker = ''
 const myChart = document.getElementById('myChart').getContext('2d')
+const chartInfo = document.querySelector('.chart-info')
 const searchText = document.querySelector('#search')
 const searchBtn = document.querySelector('.btn-submit')
 const matchList = document.getElementById('match-list')
 
-loadContent()
-
-
-
-
-
-
+if (ticker != '') {
+    loadContent()
+}
 
 // Event listeners
 // Search with autocomplete
