@@ -13,7 +13,7 @@ canvas {
   justify-content: center;
 }
 
-.container-lg {
+#chart-main {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,4 +50,8 @@ canvas {
 .card:hover {
   background: #f4f4f4;
   cursor: pointer;
+}
+
+small {
+  margin-top: 2rem;
 }

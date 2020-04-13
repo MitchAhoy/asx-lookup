@@ -1,9 +1,10 @@
-function createP(message, style, className) {
+function createP(message, style) {
     const p = document.createElement('p')
     p.innerHTML = message
-    p.classList = 'text-' + style + ' ' + className
+    p.classList.add(`text-${style}`)
     return p
 }
+
 // Get data from API
 async function getData() {
 
@@ -22,13 +23,11 @@ async function getData() {
     // Error handling
     if (object['Note']) {
         chartInfo.appendChild(createP('Too many requests - max 5 per minute', 'danger', 'error-message'))
-        setInterval(function () { document.querySelector('.error-message').style.display = 'none' }, 5000)
+        setTimeout(function () {chartInfo.removeChild(document.querySelector('.text-danger'))}, 3000)
     } else if (object['Error Message']) {
-        chartInfo.appendChild(createP(`API does not support this company: ${object['Error Message']}`, 'danger', 'error-message'))
-        setInterval(function () { document.querySelector('.error-message').style.display = 'none' }, 5000)
-    }
-
-    console.log(object)
+        chartInfo.appendChild(createP('API does not support this company', 'danger', 'error-message'))
+        setTimeout(function () {chartInfo.removeChild(document.querySelector('.text-danger'))}, 3000)
+    } 
 
     const data = new Object
 
@@ -68,8 +67,6 @@ async function getData() {
     return data
 
 }
-
-
 
 // Draw chart
 async function chartIt() {

@@ -57,9 +57,7 @@ searchText.addEventListener('focus', function () {
     matchList.style.display = 'block'
 })
 searchText.addEventListener('blur', function () {
-
     setTimeout(function () { matchList.style.display = 'none' }, 500)
-
 })
 
 
